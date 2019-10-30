@@ -19,4 +19,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/question/index', 'QuestionController@index')->name('question_index');
+Route::get('/question/new', 'QuestionController@new')->name('question_new');
 

@@ -8,6 +8,12 @@ class QuestionController extends Controller
 {
     public function index()
     {
-        return view('index');
+        return view('question.index');
+    }
+
+    public function new()
+    {
+        return view('question.new');
     }
 }
+
