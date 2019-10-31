@@ -17,7 +17,10 @@ Route::get('/', function () {
 
 Auth::routes();
 
+Route::group(['middleware' => ['auth']], function () {
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/question/index', 'QuestionController@index')->name('question_index');
-Route::get('/question/new', 'QuestionController@new')->name('question_new');
-
+Route::get('/question/index', 'QuestionController@index')->name('question.index');
+Route::get('/question/edit', 'QuestionController@edit')->name('question.edit');
+Route::get('/question/new', 'QuestionController@new')->name('question.new');
+Route::post('/question/newCreate', 'QuestionController@newCreate')->name('question.new.create');
+});
