@@ -164,7 +164,7 @@ $(function () {
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(/*! /Users/sugiyama-k/questions_note/application/resources/js/question.js */"./resources/js/question.js");
+module.exports = __webpack_require__(/*! /var/www/resources/js/question.js */"./resources/js/question.js");
 
 
 /***/ })
