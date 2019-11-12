@@ -39,20 +39,13 @@ class QuestionController extends Controller
      * @param request $request
      * @return void
      */
-    public function edit(request $request)
+    public function edit(request $request, $questionGroupId)
     {
-        // $errors = $request->session()->get('errors');
-        // if(!empty($errors))
-        // {
-        //     $nameError = Arr::pluck($errors, '"bags":protected.default."messages":protected.category');
-        // } else {
-        //     $nameError = "";
-        // }
-        $errors = $request->session()->get('errors');
-        Log::debug($errors);
 
+        $title = QuestionGroup::find($questionGroupId);
+        Log::debug($title);
 
-        return view('question.edit');
+        return view('question.edit',compact('title'));
     }
 
     public function editCreate(Request $request)
@@ -95,7 +88,13 @@ class QuestionController extends Controller
         // $questionGroup->save();
 
     }
-
+    /**
+     * Undocumented function
+     * 問題新規登録画面の処理
+     *
+     * @param Request $request
+     * @return void
+     */
     public function new(Request $request)
     {
         $errors = $request->session()->get('errors');
@@ -107,9 +106,17 @@ class QuestionController extends Controller
                 $nameError = "";
             }
         return view('question.new');
-        // errors変数を渡すとエラーになる
-    }
+   }
 
+    /**
+     * New problem registration screen.
+     *
+     * 問題新規登録画面
+     * 各入力フォームをQuestionGroupする登録処理
+     *
+     * @param CreateQuestionGroupRequest $request
+     * @return void
+     */
     public function newCreate(CreateQuestionGroupRequest $request)
     {
         $login_user_id = auth()->user()->id;
@@ -118,11 +125,16 @@ class QuestionController extends Controller
         $name = $request->name;
         $errors = $request->session()->get('errors');
 
-        QuestionGroup::create([
+        $questionGroup = new QuestionGroup;
+
+        $questionGroup->fill([
             'category' => $category,
             'user_id' => $login_user_id,
             'name' => $name,
         ]);
+
+        $questionGroup->save();
+
         return redirect('/question/index');
     }
 }
