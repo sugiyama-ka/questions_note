@@ -27,10 +27,11 @@
                 </div>
             </div>
         </li>
+    @foreach($questions as $question)
         <li class="list-group-item p-3 mt-3">
             <div class="row">
                 <div class="col-md-3 d-flex align-items-center justify-content-center">
-                    <p class="m-0">php</p>
+                    <a href=""><p class="m-0">{{ $question->name }}</p></a>
                 </div>
                 <div class="col-md-3 d-flex align-items-center justify-content-center">
                     <p class="m-0">10</p>
@@ -43,7 +44,11 @@
                 </div>
             </div>
         </li>
+    @endforeach
     </ul>
+    <div class="d-flex justify-content-center mt-5">
+        {{ $questions->links() }}
+    </div>
 </div>
 
 @endsection

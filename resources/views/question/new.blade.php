@@ -19,18 +19,20 @@
     <div class="content_main">
         <form id="new_form" class="new_form" method="POST" action="{{ route('question.new.create') }}" >
         @csrf
-            @if($errors->has('name')) 
-                <span class="text-danger">{{ $errors->first('name') }}</span> 
-            @endif
+                @if($errors->has('name'))
+                    <span class="text-danger">{{ $errors->first('name') }}</span>
+                @endif
+
             <div class="row">
                 <div class="form-group col-6">
-                    <label for="title">タイトル</label>
+                    <label for="name">タイトル</label>
                     <input type="text" class="form-control" id="name" name="name" placeholder="">
                 </div>
             </div>
-            @if($errors->has('category')) 
-                <span class="text-danger">{{ $errors->first('category') }}</span> 
-            @endif
+                @if($errors->has('category'))
+                    <span class="text-danger">{{ $errors->first('category') }}</span>
+                @endif
+
             <div class="row">
                 <div class="form-group col-6">
                     <label for="category">カテゴリー</label>
