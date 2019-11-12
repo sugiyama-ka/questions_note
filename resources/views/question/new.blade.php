@@ -11,7 +11,7 @@
         <div class="row mt-5 mb-5">
             <div class="col-md-6">
                 <button type="submit" form="new_form" class="btn btn-primary mr-3">保存</button>
-                <button type="button" class="btn btn-primary">キャンセル</button>
+                <button type="button" class="btn btn-primary" onclick="history.back()">キャンセル</button>
             </div>
         </div>
     </div>

@@ -6,7 +6,7 @@
 
     <div class="row m-5">
         <div class="col-md-3 offset-md-9 text-right">
-            <button type="button" class="btn btn-primary">作成</button>
+            <a href="{{ route('question.new') }}" class="btn btn-primary">作成</a>
         </div>
     </div>
 
@@ -31,7 +31,7 @@
         <li class="list-group-item p-3 mt-3">
             <div class="row">
                 <div class="col-md-3 d-flex align-items-center justify-content-center">
-                    <a href=""><p class="m-0">{{ $question->name }}</p></a>
+                    <a href="{{ route('question.edit',$question->id) }}"><p class="m-0">{{ $question->name }}</p></a>
                 </div>
                 <div class="col-md-3 d-flex align-items-center justify-content-center">
                     <p class="m-0">10</p>
