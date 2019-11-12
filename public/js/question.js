@@ -94,63 +94,72 @@
 /***/ (function(module, exports) {
 
 $(function () {
-  var numberAnswer = 2;
-  var numberId = 1; //解答の追加
-
+  // 解答の追加
   $('.js-add_answer').on('click', function () {
-    // display:none;しているデフォルトから解答欄を取得
-    var element = $('#js-problem_default .problem_content_main').clone(true);
-    $(this).parents('.js-add_answer_target:last-child').append(element);
-    var number = $(this).parents('.js-problem').find('.problem_content_main:last');
-    var numberNow = number.find('.answer_number');
-    console.log(number);
-    var now = numberNow.text().split('.');
-    var a = now[1];
-    a++;
-    numberNow.text('No.' + a);
-    console.log(numberNow);
-    numberAnswer++;
-    return;
+    // 末尾のAnswer要素を取得する
+    var lastAnswerElement = $(this).parents('.problem_main').find('.problem_answer_content_add').last(); // console.log(lastAnswerElement);
+    // 取得したAnswer要素からdata-idを取得し、name属性に割り振る番号を作る。
+
+    var answerNextId = lastAnswerElement.data()['answerid'] + 1;
+    var problemId = $(this).parents('.problem_main').find('.problem_info').data()['problemid'];
+    console.log(answerNextId);
+    console.log(problemId); // デフォルトの答えをクローンする
+
+    var answerElemet = $('.problem_default .js-add').clone(true); // 各項目にname属性をつける。
+
+    answerElemet.find('.problem_answer_content_no .form-control').attr('name', 'problems[' + problemId + '][answer][' + answerNextId + '][index]');
+    answerElemet.find('.problem_answer_content_content .form-control').attr('name', 'problems[' + problemId + '][answers][' + answerNextId + '][content]');
+    answerElemet.find('.problem_answer_content_correct .form_correct').attr('name', 'problems[' + problemId + '][answers][' + answerNextId + '][correct]'); // nama属性の番号を管理しているdata-id属性を書き換える。
+
+    answerElemet.data('answerid', answerNextId); // その問題の一番最後の解答の後ろに追加
+
+    $(this).parents('.problem_main').find('.problem_answer_content_main').last().append(answerElemet);
   }); // 解答の削除
 
-  $('.js-delete_answer').on('click', function () {
-    var answerMinCount = 1; // 現在表示されている問題数の数を取得する
+  $('.js-problem_answer_head_btn').on('click', function () {
+    // 末尾のAnswer要素を取得する
+    var lastAnswerElement = $(this).parents('.problem_main').find('.problem_answer_content_add').last(); // 現在表示されているAnswer要素の数を数える。
 
-    var answerInput = $(this).parents('.js-answer_delete_target').find('.js-answer_unit');
-    var answerInputCount = answerInput.length; //解答が１問未満の時は削除しない。
+    var answerElementLengh = $(this).parents('.problem_main').find('.problem_answer_content_add').length; // 現在表示されている解答の数が1より少ない場合はAnswer要素を削除しない。
 
-    if (answerInputCount > answerMinCount) {
-      $(this).parents('.js-answer_delete_target').find('.js-answer_unit:last-child').remove();
-      numberAnswer--;
-      return;
+    if (answerElementLengh > 1) {
+      lastAnswerElement.remove();
     }
-  });
-  var numberProblem = 2; // 問題の追加
+  }); // 問題の追加
 
   $('#js-add_problem').on('click', function () {
-    var numberProblemData = $('#js-problem_default .problem_number'); // console.log(numberProblemData);
+    // problem要素をデフォルトから問題をコピーする。
+    var problemElement = $(this).parents('#problem_all').find('.problem_default').clone(true); // 取得したProblem要素からdata-idを取得し、name属性に割り振る番号を作る。
 
-    var numberProblemNow = numberProblemData.text('No.' + numberProblem); // console.log(numberProblemNow);
+    var problemInput = $(this).parents('#problem_all').find('.problem_main').last().find('.problem_info');
+    var problemNextId = problemInput.data('problemid') + 1;
+    console.log(problemNextId); // 画面を表示。
 
-    var problemElement = $('#js-problem_default').clone(true);
-    problemElement.removeAttr('id');
-    problemElement.css('display', '');
-    problemElement.addClass('problem_main');
-    $('#js-problem_default').parent().append(problemElement);
-    numberProblem++;
-    return;
+    problemElement.css('display', ''); // クラス名を変更
+
+    problemElement.removeClass('problem_default');
+    problemElement.addClass('problem_main'); // 各項目にname属性をつける
+
+    problemElement.find('.problem_info_no .form-control').attr('name', 'problems[' + problemNextId + '][index]');
+    problemElement.find('.problem_info_title .form-control').attr('name', 'problems[' + problemNextId + '][content]');
+    problemElement.find('.problem_info_weight .form-control').attr('name', 'problems[' + problemNextId + '][weight]');
+    problemElement.find('.problem_answer_content_no .form-control').attr('name', 'problems[' + problemNextId + '][answer][0][index]');
+    problemElement.find('.problem_answer_content_content .form-control').attr('name', 'problems[' + problemNextId + '][answer][0][content]');
+    problemElement.find('.problem_answer_content_content .form-control').attr('name', 'problems[' + problemNextId + '][answer][0][correct]'); // nama属性の番号を管理しているdata-id属性を変更する。
+
+    problemElement.find('.problem_info').data('problemid', problemNextId); // 表示されている問題の最後にproblem要素を追加する。
+
+    $(this).parents('#problem_all').find('#problem').last().append(problemElement);
   }); // 問題の削除
 
-  $('.js-delete_problem').on('click', function () {
-    // 問題が1問未満の時は削除しない。
-    var problemMinCount = 1;
-    var problemInput = $(this).parents('.js-problem_target').find('.problem_main');
-    var problemInputCount = problemInput.length;
+  $('.js-delete-problem').on('click', function () {
+    // 末尾のProblem要素を取得する
+    var lastProblemElement = $(this).parents('#problem_all').find('#problem .problem_main').last(); // 現在表示されている問題の数を取得
 
-    if (problemInputCount > problemMinCount) {
-      $(this).parents('.js-problem_target').find('.js-problem:last-child').remove();
-      numberProblem--;
-      return;
+    var problemElementLengh = $(this).parents('#problem_all').find('#problem .problem_main').length; // 表示されている問題の数が1以下の場合は削除しない
+
+    if (problemElementLengh > 1) {
+      lastProblemElement.remove();
     }
   });
 });
