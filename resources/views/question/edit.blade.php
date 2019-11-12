@@ -17,7 +17,7 @@
             <button type="submit" form="question_edit_form" class="btn btn-primary ml-4"
             >保存</button>
             <button type="button" class="btn btn-primary ml-4"
-            >キャンセル</button>
+             onclick="history.back()">キャンセル</button>
         </div>
     </div>
 
@@ -27,7 +27,7 @@
             <div class="form-group col-md-6">
                 <label for="formGroupExampleInput">タイトル</label>
                 <input type="text" class="
-                form-control" id="title" name="title" placeholder="">
+                form-control" id="title" name="title" value="{{ $title->name }}">
             </div>
         </div>
 
